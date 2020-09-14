@@ -19,6 +19,29 @@ string GbkToUtf8(const char *src_str)
 	return strTemp;
 }
 
+string readin(char const *argv)
+{
+	ifstream infile;
+	string t,s;
+	s="\0"; 
+ 
+	infile.open(argv);
+	if (!infile.is_open())
+		cout << "open file failure!" << endl;
+	while (!infile.eof())
+	{
+		infile >> t;
+		s += t;
+	}
+	infile.close();
+ 	
+	const char* p = s.data();
+ 	s = GbkToUtf8(p);
+ 	return s;
+	
+}
+
+
 string Utf8ToGbk(const char *src_str)
 {
 	int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, NULL, 0);
@@ -37,9 +60,17 @@ string Utf8ToGbk(const char *src_str)
 
 int main(int argc, char const *argv[])
 {
-	
-    //freopen("1.in","r",stdin);
-    //freopen("1.out","w",stdout);
+	string text1;
+	string text2;
+	 if(argc!=3)
+    {
+        printf("没有两个参数噢");
+        return -1;
+    }
+    
+	text1=readin(argv[1]);
+	text2=readin(argv[2]);
+
     const char* const DICT_PATH = "cppjieba/dict/jieba.dict.utf8";
     const char* const HMM_PATH = "cppjieba/dict/hmm_model.utf8";
     const char* const USER_DICT_PATH = "cppjieba/dict/user.dict.utf8";
@@ -47,27 +78,37 @@ int main(int argc, char const *argv[])
     const char* const STOP_WORD_PATH = "cppjieba/dict/stop_words.utf8";
 
 
-
-	
-    cppjieba::Jieba jieba(DICT_PATH,
-        HMM_PATH,
-        USER_DICT_PATH,
-        IDF_PATH,
-        STOP_WORD_PATH);
+    cppjieba::	Jieba jieba(DICT_PATH,
+        		HMM_PATH,
+        		USER_DICT_PATH,
+        		IDF_PATH,
+        		STOP_WORD_PATH);
+        		
     vector<string> words;
     vector<cppjieba::Word> jiebawords;
     string s;
     string result;
     
-    s = "一天一天又一天";
-	cout << s << endl;
-	s = GbkToUtf8(s.c_str());
-	cout << "[demo] Cut With HMM" << endl;
-	jieba.Cut(s, words, true);
+	jieba.Cut(text1, words, true);
+	for (int i = 0;i < words.size();i++)
+	{
+	cout << Utf8ToGbk(words[i].c_str()) << "/";
+	}
+	
+	cout<<endl; 
+	cout<<endl;
+	cout<<endl;
+	cout<<endl;
+	cout<<endl;
+	cout<<endl;
+	cout<<endl;
+	
+	jieba.Cut(text2, words, true);
 	for (int i = 0;i < words.size();i++)
 	{
 	cout << Utf8ToGbk(words[i].c_str()) << "/";
 	}
 	cout << endl;
+	
     return 0;
 }
