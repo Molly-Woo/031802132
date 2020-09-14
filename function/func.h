@@ -11,4 +11,5 @@
 #include<set>
 #define ll long long
 
-string reandin(int num,char const *argv[])
+string GbkToUtf8(const char *src_str);
+string readin(char const *argv);

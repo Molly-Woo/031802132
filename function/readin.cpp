@@ -1,6 +1,9 @@
+#include<iostream>
 #include<fstream>
+#include<cstring>
+#include<string>
 #include<windows.h>
-#include"function/func.h"
+using namespace std; 
 
 string GbkToUtf8(const char *src_str)
 {
@@ -18,23 +21,41 @@ string GbkToUtf8(const char *src_str)
 	return strTemp;
 }
 
-string reandin(int num,char const *argv[])
+string readin(char const *argv)
 {
 	ifstream infile;
-	string t;
-	vector<string> s;
+	string t,s;
+	s="\0"; 
  
-	infile.open("agrv[0]");
+	infile.open(argv);
 	if (!infile.is_open())
-		cout << "open file failure" << endl;
+		cout << "open file failure!" << endl;
 	while (!infile.eof())
 	{
-		infile >> t1;
-		s1.push_back(t1);
+		infile >> t;
+		s += t;
 	}
 	infile.close();
  	
- 	s = GbkToUtf8(s);
+	const char* p = s.data();
+ 	s = GbkToUtf8(p);
  	return s;
 	
+}
+
+
+string Utf8ToGbk(const char *src_str)
+{
+	int len = MultiByteToWideChar(CP_UTF8, 0, src_str, -1, NULL, 0);
+	wchar_t* wszGBK = new wchar_t[len + 1];
+	memset(wszGBK, 0, len * 2 + 2);
+	MultiByteToWideChar(CP_UTF8, 0, src_str, -1, wszGBK, len);
+	len = WideCharToMultiByte(CP_ACP, 0, wszGBK, -1, NULL, 0, NULL, NULL);
+	char* szGBK = new char[len + 1];
+	memset(szGBK, 0, len + 1);
+	WideCharToMultiByte(CP_ACP, 0, wszGBK, -1, szGBK, len, NULL, NULL);
+	string strTemp(szGBK);
+	if (wszGBK) delete[] wszGBK;
+	if (szGBK) delete[] szGBK;
+	return strTemp;
 }
