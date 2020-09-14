@@ -40,8 +40,6 @@ int main(int argc, char const *argv[])
     vector<string> words_text1;
     vector<string> words_text2;
     vector<cppjieba::Word> jiebawords;
-    string s;
-    string result;
     
 	jieba.Cut(text1, words_text1, true);
 	len_text1=words_text1.size(); 
@@ -73,6 +71,7 @@ int main(int argc, char const *argv[])
 		}
 	}
 	for (int i=0;i < len_text1;i++){
+		//cout<<Utf8ToGbk(words_text1[i].c_str())<<"/";
 		for (int j=0;j < dic_words_adr;j++){
 			if(dic_words[j]==words_text1[i]){
 				vector_text1[j]++;break;				
@@ -80,6 +79,7 @@ int main(int argc, char const *argv[])
 		}
 	}
 	for (int i=0;i < len_text2;i++){
+		//cout<<Utf8ToGbk(words_text2[i].c_str())<<"/";
 		for (int j=0;j < dic_words_adr;j++){
 			if(dic_words[j]==words_text2[i]){
 				vector_text2[j]++;break;				
@@ -87,10 +87,16 @@ int main(int argc, char const *argv[])
 
 		}
 	}
-	/*
+	
+	double sum=0,sq1=0,sq2=0,result=0;
 	for (int i=0;i < dic_words_adr;i++){
-		cout << Utf8ToGbk(dic_words[i].c_str()) << "/";
-	}*/
+		sum+=vector_text1[i]*vector_text2[i];
+		sq1+=vector_text1[i]*vector_text1[i];
+		sq2+=vector_text2[i]*vector_text2[i];
+	}
+	cout<<sum<<endl<<sq1<<endl<<sq2<<endl;
+	result=sum/(sqrt(sq1)*sqrt(sq2));
+	cout <<result<<endl;
 	cout <<(double)clock() /CLOCKS_PER_SEC<< "s" << endl;
     return 0;
 }
