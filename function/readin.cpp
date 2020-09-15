@@ -45,6 +45,14 @@ string readin(char const *argv)
 	
 }
 
+void writeout(char const *argv,double result){
+	ofstream outfile;
+	outfile.open(argv);
+	
+	outfile<<result<<endl;
+	outfile.close();
+} 
+
 
 string Utf8ToGbk(const char *src_str)
 {

@@ -16,9 +16,9 @@ int main(int argc, char const *argv[])
 	int len_text1=0,len_text2=0;
 	int vector_text1[MAXN]={0};
 	int vector_text2[MAXN]={0};
-	if(argc!=3)
+	if(argc!=4)
     {
-        printf("没有两个参数噢");
+        printf("参数数目不对噢");
         return -1;
     }
  	
@@ -107,9 +107,10 @@ int main(int argc, char const *argv[])
 	}
 	//cout<<sum<<endl<<sq1<<endl<<sq2<<endl;
 	result=sum/(sqrt(sq1)*sqrt(sq2));
-	cout <<result<<endl;
+	writeout(argv[3],result);
+	//cout <<result<<endl;
 	//cout <<(double)clock() /CLOCKS_PER_SEC<< "s" << endl;
     return 0;
 }
 
-//main.exe D:\A_valuable\procedure\c\1.txt D:\A_valuable\procedure\c\2.txt
+//main.exe D:\A_valuable\procedure\c\1.txt D:\A_valuable\procedure\c\2.txt D:\A_valuable\procedure\c\3.txt
