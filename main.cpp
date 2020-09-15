@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <time.h>
 #include "function/readin.cpp" 
+#include "stop.cpp"
 #include "cppjieba/include/cppjieba/Jieba.hpp"
 const int MAXN=1e5;
 using namespace std;
@@ -20,7 +21,7 @@ int main(int argc, char const *argv[])
         printf("没有两个参数噢");
         return -1;
     }
-    
+ 	
 	text1=readin(argv[1]);
 	text2=readin(argv[2]);
 
@@ -29,8 +30,7 @@ int main(int argc, char const *argv[])
     const char* const USER_DICT_PATH = "cppjieba/dict/user.dict.utf8";
     const char* const IDF_PATH = "cppjieba/dict/idf.utf8";
     const char* const STOP_WORD_PATH = "cppjieba/dict/stop_words.utf8";
-
-
+	
     cppjieba::	Jieba jieba(DICT_PATH,
         		HMM_PATH,
         		USER_DICT_PATH,
@@ -41,11 +41,16 @@ int main(int argc, char const *argv[])
     vector<string> words_text2;
     vector<cppjieba::Word> jiebawords;
     
+    
 	jieba.Cut(text1, words_text1, true);
 	len_text1=words_text1.size(); 
 	for (int i = 0;i < len_text1 ;i++)
 	{
 		int flag=1;
+		if(stopwords_find(words_text1[i])){
+			//cout<<words_text1[i]<<endl;
+			continue;
+		}
 		for(int j = 0;j < dic_words_adr;j++){
 			if(dic_words[j]==words_text1[i]){
 				flag=0;break;
@@ -61,6 +66,10 @@ int main(int argc, char const *argv[])
 	for (int i = 0;i < len_text2;i++)
 	{
 		int flag=1;
+		if(stopwords_find(words_text2[i])){
+			//cout<<words_text2[i]<<endl;
+			continue;
+		}
 		for(int j = 0;j < dic_words_adr;j++){
 			if(dic_words[j]==words_text2[i]){
 				flag=0;break;
@@ -72,6 +81,7 @@ int main(int argc, char const *argv[])
 	}
 	for (int i=0;i < len_text1;i++){
 		//cout<<Utf8ToGbk(words_text1[i].c_str())<<"/";
+		if(stopwords_find(words_text1[i]))continue;
 		for (int j=0;j < dic_words_adr;j++){
 			if(dic_words[j]==words_text1[i]){
 				vector_text1[j]++;break;				
@@ -80,6 +90,7 @@ int main(int argc, char const *argv[])
 	}
 	for (int i=0;i < len_text2;i++){
 		//cout<<Utf8ToGbk(words_text2[i].c_str())<<"/";
+		if(stopwords_find(words_text2[i]))continue;
 		for (int j=0;j < dic_words_adr;j++){
 			if(dic_words[j]==words_text2[i]){
 				vector_text2[j]++;break;				
@@ -94,10 +105,10 @@ int main(int argc, char const *argv[])
 		sq1+=vector_text1[i]*vector_text1[i];
 		sq2+=vector_text2[i]*vector_text2[i];
 	}
-	cout<<sum<<endl<<sq1<<endl<<sq2<<endl;
+	//cout<<sum<<endl<<sq1<<endl<<sq2<<endl;
 	result=sum/(sqrt(sq1)*sqrt(sq2));
 	cout <<result<<endl;
-	cout <<(double)clock() /CLOCKS_PER_SEC<< "s" << endl;
+	//cout <<(double)clock() /CLOCKS_PER_SEC<< "s" << endl;
     return 0;
 }
 
