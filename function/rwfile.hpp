@@ -41,7 +41,6 @@ string readin(char const *argv)//文件读入
 	infile.open(argv);
 	if (!infile.is_open()){
 		cout << "open file failure!" << endl;
-		return -1;
 	}
 		
 	while (!infile.eof())
@@ -60,11 +59,6 @@ string readin(char const *argv)//文件读入
 void writeout(char const *argv,double result){//文件写入 
 	ofstream outfile;
 	
-	if (!infile.is_open()){
-		cout << "open file failure!" << endl;
-		return -1;
-	} 
-		
 	outfile.open(argv);	
 	outfile<<fixed<<setprecision(2)<<result<<endl;
 	outfile.close();

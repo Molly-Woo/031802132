@@ -23,7 +23,7 @@ int main(int argc, char const *argv[])
 	
 	if(argc!=4)
     {
-        printf("参数数目不对噢");
+        printf("当前文件数目为%d，应输入三个文件。",argc-1);
         return -1;
     }
  	
@@ -67,7 +67,7 @@ int main(int argc, char const *argv[])
 		if(flag)
 			dic_words[dic_words_adr++]=words_text2[i];
 	}
-
+	
 //进行词向量统计 	
 	for (int i=0;i < dic_words_adr;i++){
 		for (int j=0; j<len_text1; j++){
@@ -92,7 +92,8 @@ int main(int argc, char const *argv[])
 	result=sum/(sqrt(sq1)*sqrt(sq2));
 	
 	writeout(argv[3],result);//输出到文件 
-	
+	cout<<fixed<<setprecision(2)<<result;
+	//system("pause"); 
 	//cout << "The run time is:" << (double)clock() /CLOCKS_PER_SEC<< "s" << endl;
     return 0;
 }
